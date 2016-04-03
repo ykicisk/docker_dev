@@ -1,0 +1,13 @@
+{
+	"name": "chainer",
+	"default_attributes": {
+		"python": {
+			"install_method": "package"
+		}
+	},
+	"override_attributes": { },
+	"json_class": "Chef::Role",
+	"description": "chainer dev.",
+	"chef_type": "role",
+	"run_list": ["recipe[python]", "recipe[chainer]"]
+}

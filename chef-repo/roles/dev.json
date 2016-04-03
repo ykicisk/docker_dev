@@ -1,0 +1,22 @@
+{
+	"name": "dev",
+	"default_attributes": { },
+	"override_attributes": {
+		"vim": {
+			"install_method": "source",
+			"source": {
+				"dependencies": [
+					"lua-devel",
+					"python-devel",
+					"ruby-devel",
+					"ncurses-devel"
+				],
+			"configuration": "--without-x --disable-darwin --disable-selinux --enable-luainterp --enable-tclinterp --enable-pythoninterp --enable-rubyinterp --enable-cscope --enable-multibyte --with-features=huge"
+			}
+		}
+	},
+	"json_class": "Chef::Role",
+	"description": "Develop environment.",
+	"chef_type": "role",
+	"run_list": ["recipe[vim]", "recipe[my_shell]"]
+}
