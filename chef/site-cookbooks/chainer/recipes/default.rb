@@ -9,7 +9,7 @@
 
 include_recipe "python"
 
-package ["libjpeg-turbo-devel","zlib-devel","hdf5-devel"]
+package ["libjpeg-turbo-devel","zlib-devel"]
 
 # install packages
 python_pip 'six' do

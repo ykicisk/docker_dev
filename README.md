@@ -7,10 +7,6 @@ docker files for dev environment ( centos7 )
 # install berkshelf
 $ gem i berkshelf --no-ri --no-rdoc
 
-# update dotfiles
-$ cd dotfiles
-$ git submodule update
-
 # get external cookbooks
 $ cd chef
 $ berks vendor cookbooks

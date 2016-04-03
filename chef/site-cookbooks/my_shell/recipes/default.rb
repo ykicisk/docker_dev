@@ -22,13 +22,6 @@ package ['zsh', 'tmux', 'git']
     to "#{node[cookbook_name]['dotfiles_dst']}/#{fname}"
   end
 end
-# change shell
-# bash "Set docker's shell to zsh" do
-#   code <<-EOT
-#     chsh -s /bin/zsh docker
-#   EOT
-#   not_if 'test "/bin/zsh" = "$(grep docker /etc/passwd | cut -d: -f7)"'
-# end  
 
 # install zplug
 git "#{node[cookbook_name]['home']}/.zplug" do
@@ -38,6 +31,12 @@ git "#{node[cookbook_name]['home']}/.zplug" do
   group 'docker'
   action :sync
 end
+bash "Set docker's shell to zsh" do
+  code <<-EOT
+    chsh -s /bin/zsh docker
+  EOT
+  not_if 'test "/bin/zsh" = "$(grep docker /etc/passwd | cut -d: -f7)"'
+end  
  
 # install neobundle
 directory "#{node[cookbook_name]['home']}/.vim/bundle" do
@@ -58,7 +57,7 @@ bash "install vim plugins" do
     sudo -u docker #{node[cookbook_name]['home']}/.vim/bundle/neobundle.vim/bin/neoinstall
   EOT
   # code <<-EOT "#{node[cookbook_name]['home']}/.vim/bundle/neobundle.vim/bin/neoinstall" EOT
-  not_if { File.exists?("#{node[cookbook_name]['home']}/.vim/bundle/molokai") }
+  not_if { File.exists?("#{node[cookbook_name]['home']}/.vim/bundle/molokai/colors/molokai.vim") }
 end
 # cp molokai theme
 directory "#{node[cookbook_name]['home']}/.vim/colors" do
