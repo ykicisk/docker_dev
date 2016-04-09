@@ -21,5 +21,5 @@ $ docker build -t centos:dev .
 ## docker run
 
 ```
-$ docker run -it --rm -u docker centos:dev /bin/bash
+$ docker run -it --rm centos:dev /bin/zsh
 ```
