@@ -1,9 +1,25 @@
-FROM centos:7.2.1511
- 
+FROM ubuntu:latest
+
+# chef provision setting
 # select a file in ${CHEFHOME}/nodes
-# ENV CHEFTARGET dev.json
-ENV CHEFTARGET chainer.json
+ENV CHEFTARGET dev.json
+# ENV CHEFTARGET chainer.json
 ENV CHEFHOME /chef
+
+# ssh setting
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:screencast' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
 
 # add docker user
 RUN useradd -m -d /home/docker -s /bin/bash docker \
@@ -16,19 +32,12 @@ COPY . /home/docker/.docker
 RUN mkdir -p /home/docker/share
 RUN chown -R docker:docker /home/docker
 
-# install essential tools
-RUN yum -y update
-RUN yum -y groupinstall base
-RUN yum -y groupinstall core
-RUN yum -y groupinstall "Development Tools"
+WORKDIR /home/docker
+ENV HOME /home/docker
 
 # provision by chef
+RUN apt-get install -y curl build-essential
 RUN curl -L http://www.opscode.com/chef/install.sh | bash
 COPY chef /chef
 RUN cd ${CHEFHOME} && chef-solo -c ${CHEFHOME}/solo.rb -j ${CHEFHOME}/nodes/${CHEFTARGET}
- 
-USER docker
-WORKDIR /home/docker
-ENV HOME /home/docker
-ENV LANG C.UTF-8
-ENV TERM xterm-256color
+

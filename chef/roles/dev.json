@@ -5,13 +5,20 @@
 		"vim": {
 			"install_method": "source",
 			"source": {
-				"dependencies": [
-					"lua-devel",
-					"python-devel",
-					"ruby-devel",
-					"ncurses-devel"
-				],
-			"configuration": "--without-x --disable-darwin --disable-selinux --enable-luainterp --enable-tclinterp --enable-pythoninterp --enable-rubyinterp --enable-cscope --enable-multibyte --with-features=huge"
+				"dependencies": [ 
+					"python-dev",
+					"libncurses5-dev",
+					"ruby",
+					"ruby-dev",
+					"libperl-dev",
+					"exuberant-ctags",
+					"gettext",
+					"tcl-dev",
+					"lua5.2",
+					"liblua5.2-dev",
+					"gcc",
+					"make"],
+				"configuration": "--without-x --disable-darwin --disable-selinux --enable-luainterp --enable-tclinterp --enable-pythoninterp --enable-rubyinterp --enable-cscope --enable-multibyte --with-features=huge"
 			}
 		}
 	},
